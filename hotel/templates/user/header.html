@@ -1,0 +1,192 @@
+{% comment %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="/">Food Mania</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-white"
+            id="fashionDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Menu
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="fashionDropdown">
+            {% for c in categories %}
+            <li>
+              <a class="dropdown-item" href="{% url 'menuitem' c.name %}">
+                {{c.name}}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+      <form method="get" action="{% url 'search' %}" class="d-flex">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          name="query"
+          id="search"
+        />
+        <button class="btn btn-warning" type="submit">S</button>
+      </form>
+      <div>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if request.user.is_authenticated %}
+
+          <li class="nav-item dropdown mx-2">
+            <a
+              class="nav-link dropdown-toggle text-white"
+              href="#"
+              id="profileDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{request.user.username|capfirst}}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+              <li>
+                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'orders' %}">Orders</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'passwordchange' %}"
+                  >Change Password</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item mx-2">
+            <a href="{% url 'showcart' %}" class="nav-link text-white"
+              ><span class="badge bg-danger"></span> Cart
+            </a>
+          </li>
+          {% else %}
+          <li class="nav-item mx-2">
+            <a href="{% url 'login' %}" class="nav-link text-white">Login</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a
+              href="{% url 'customerregistration' %}"
+              class="nav-link text-white"
+              >Registration</a
+            >
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+{% endcomment %}
+<!-- ======= Header ======= -->
+{% load static %}
+<header id="header" class="header fixed-top d-flex align-items-center">
+  <div class="container d-flex align-items-center justify-content-between">
+    <a
+      href="{% url 'home' %}"
+      class="logo d-flex align-items-center me-auto me-lg-0"
+    >
+      <!-- Uncomment the line below if you also wish to use an image logo -->
+      <!-- <img src="assets/img/logo.png" alt=""> -->
+      <h1>Food Mania<span>.</span></h1>
+    </a>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        {% url 'home' as url %}
+        <li>
+          <a
+            href="{% if request.path == url %} #hero {% else %} {% url 'home' %} {% endif %}"
+            >Home</a
+          >
+        </li>
+        {% url 'home' as url %}
+        <li>
+          <a
+            href="{% if request.path == url %} #menu {% else %} {% url 'menu' %} {% endif %}"
+            >Menu</a
+          >
+        </li>
+        <li>
+          <a href="{% url 'showcart' %}"
+            ><span class="badge bg-danger"></span> Cart
+          </a>
+        </li>
+
+        <li>
+          <form method="get" action="{% url 'search' %}" class="d-flex">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              name="query"
+              id="search"
+            />
+            <a class="btn-book-a-table" type="submit">Submit</a>
+          </form>
+        </li>
+        {% if request.user.is_authenticated %}
+
+        <li class="dropdown">
+          <a href="{% url 'profile' %}"
+            ><span>{{request.user.username|capfirst}}</span>
+            <i class="bi bi-chevron-down dropdown-indicator"></i
+          ></a>
+
+          <ul>
+            <li>
+              <a href="{% url 'orders' %}">Orders</a>
+            </li>
+
+            <li>
+              <a href="{% url 'logout' %}">Logout</a>
+            </li>
+          </ul>
+        </li>
+
+        {% else %}
+        <li>
+          <a href="{% url 'login' %}">Login</a>
+        </li>
+        <li>
+          <a href="{% url 'customerregistration' %}">Registration</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <!-- .navbar -->
+    <a class="btn-book-a-table" href="#">9805801474</a>
+    <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+    <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+  </div>
+</header>
+<!-- End Header -->

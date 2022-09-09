@@ -1,0 +1,58 @@
+{% extends 'hotel/base.html' %} {% load static %}
+<hr />
+{% block title %}Buy Now{% endblock title %} {% block main-content %}
+<section>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-sm-2 border-end">
+        <div class="list-unstyled">
+          <li class="d-grid">
+            {% url 'menu' as url %}
+
+            <a
+              href="{{url}}"
+              class="btn rounded-pill {% if request.path == url %}btn-danger{% endif %}"
+              >All Menu</a
+            >
+
+            {% for c in categories %} {% url 'menuitem' c.name as url %}
+            <a
+              href="{{url}}"
+              class="btn rounded-pill {% if request.path == url %}btn-danger{% endif %}"
+              >{{c.name}}</a
+            >
+            {% endfor %}
+          </li>
+        </div>
+      </div>
+      <div class="col-sm-8 offset-sm-1 menu">
+        <div class="container" data-aos="fade-up">
+          <div class="section-header">
+            <h2>Our Menu</h2>
+            <p>Check Our <span>Yummy Menu</span></p>
+          </div>
+          <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+            <div class="tab-pane fade active show">
+              <div class="row gy-5">
+                {% for i in menuitem %}
+                <div class="col-lg-4 menu-item">
+                  <a href="{% url 'item-detail' i.id %}">
+                    <img
+                      src="{{i.image.url}}"
+                      alt=""
+                      class="menu-img img-fluid"
+                    />
+                  </a>
+                  <h4>{{i.name}}</h4>
+                  <div class="price">Rs.{{i.price}}</div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock main-content %}

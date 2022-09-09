@@ -1,0 +1,21 @@
+{% extends 'hotel/base.html' %}
+<hr />
+{% load static %}
+<hr />
+{% block title %}Home {% endblock title %}
+<hr />
+{% block main-content %} {% include 'user/hero.html' %}
+<hr />
+{% include 'user/menu.html' %} {% include 'user/about.html' %}
+<hr />
+{% comment %} {% include 'user/statecounter.html' %} {% endcomment %}
+<hr />
+{% include 'user/events.html' %}
+<hr />
+{% include 'user/chefs.html' %} {% include 'user/gallery.html' %}
+<hr />
+{% comment %} {% include 'user/booktable.html' %} {% endcomment %}
+<hr />
+{% include 'user/contact.html' %}
+<hr />
+{% endblock main-content %}

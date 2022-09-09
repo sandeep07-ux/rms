@@ -1,0 +1,55 @@
+{% comment %}
+<h3><span class="text-capitalize m-5"> Hi {{request.user}}</span></h3>
+{% endcomment %}
+<div class="col-sm-2 border-end">
+  <ul class="list-unstyled">
+    <li class="d-grid">
+      {% url 'profile' as url%}
+      <a
+        href="{{url}}"
+        class="btn rounded-pill {% if request.path == url %}btn-danger{% endif %}"
+        >My Account</a
+      >
+    </li>
+    <li class="d-grid">
+      {% url 'address' as url %}
+      <a
+        href="{{url}}"
+        class="btn rounded-pill {% if request.path == url %}btn-danger {% endif %}"
+        >Address</a
+      >
+    </li>
+    <li class="d-grid">
+      {% url 'showcart' as url %}
+      <a
+        href="{{url}}"
+        class="btn rounded-pill {% if request.path == url %}btn-danger {% endif %}"
+        >Cart</a
+      >
+    </li>
+    <li class="d-grid">
+      {% url 'orders' as url %}
+      <a
+        href="{{url}}"
+        class="btn rounded-pill {% if request.path == url %}btn-danger {% endif %}"
+        >Order History</a
+      >
+    </li>
+    <li class="d-grid">
+      {% url 'passwordchange' as url %}
+      <a
+        href="{{url}}"
+        class="btn rounded-pill {% if request.path == url %}btn-danger {% endif %}"
+        >Change Password</a
+      >
+    </li>
+    <li class="d-grid">
+      {% url 'logout' as url %}
+      <a
+        href="{{url}}"
+        class="btn rounded-pill {% if request.path == url %}btn-danger {% endif %}"
+        >Logout</a
+      >
+    </li>
+  </ul>
+</div>

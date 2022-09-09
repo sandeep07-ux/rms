@@ -1,0 +1,29 @@
+{% extends 'hotel/base.html' %} {% load static %}
+<hr />
+{% block title %}Buy Now{% endblock title %} {% block main-content %}
+<section>
+  <div class="container my-5">
+    <div class="row">
+      {% include 'hotel/sidebar/bar.html' %}
+      <div class="col-sm-9 offset-sm-1">
+        <div class="row">
+          {% for ad in add %}
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h3>Address {{forloop.counter}}</h3>
+                <p>Name: {{ad.name}}</p>
+                <p>Address 1: {{ad.address}}</p>
+                <p>Address 2: {{ad.city}}</p>
+                <p>State: {{ad.province}}</p>
+                <p>Pin code: {{ad.zipcode}}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock main-content %}

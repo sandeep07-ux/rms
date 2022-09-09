@@ -1,0 +1,50 @@
+{% comment %} {% extends 'hotel/base.html' %} {% load static %}
+<hr />
+{% block title %}My Account{% endblock title %} {% block main-content %}
+<section>
+  <div class="container my-5">
+    <div class="row">
+      {% include 'hotel/sidebar/bar.html ' %}
+      <div class="col-sm-8 offset-sm-1">
+        {% for c in customer %}
+        <div class="card p-4">
+          <h4 class="card-title font-weight-bold text-center">
+            Hello, {{ user.username|title }}
+          </h4>
+          <hr />
+          <div class="card-text">
+            <p class="text-muted mb-0" style="font-size: 12px">Username:</p>
+            <p>{{ c.name }}</p>
+            <p class="text-muted mb-0" style="font-size: 12px">Address:</p>
+            <p>{{ c.address }}</p>
+            <p class="text-muted mb-0" style="font-size: 12px">City:</p>
+            <p>{{ c.city }}</p>
+            <p class="text-muted mb-0" style="font-size: 12px">Zipcode:</p>
+            <p>{{ c.zipcode }}</p>
+            <p class="text-muted mb-0" style="font-size: 12px">Province:</p>
+            <p>{{ c.province }}</p>
+          </div>
+        </div>
+        {% endfor %}
+
+        <form action="" method="post" novalidate>
+          {% csrf_token %} {% for fm in form %}
+          <div class="form-group-col-lg-6 mb-3">
+            {{fm.label_tag}} {{fm}}
+            <small class="text-danger">{{fm.errors|striptags}}</small>
+          </div>
+          {% endfor %}
+          <div class="col-12 mt-3">
+            <button class="btn btn-primary mb-3">Update</button>
+          </div>
+        </form>
+        {% if messages %} {% for msg in messages %}
+        <p {% if msg.tags %}class="alert alert-{{msg.tags}} mb-5" {% endif %}>
+          {{msg}}
+        </p>
+        {% endfor %} {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock main-content %} {% endcomment %}

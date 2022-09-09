@@ -1,0 +1,18 @@
+{% extends 'hotel/base.html' %} {% load static %}
+<hr />
+{% block title %}Buy Now{% endblock title %} {% block main-content %}
+<section>
+  <div class="container my-5">
+    <div class="row">
+      <h3 class="text-center">You have no product in you cart</h3>
+      <div class="text-center">
+        <img
+          src="{% static 'hotel/images/emptycart.png' %}"
+          alt=""
+          class="img-fluid img-thumbnail w-25"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock main-content %}

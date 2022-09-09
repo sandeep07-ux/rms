@@ -1,0 +1,95 @@
+{% extends 'hotel/base.html' %} {% load static %}
+<hr />
+{% block title %}Search Result {% endblock title %}
+<hr />
+{% block main-content %}
+<section id="menu" class="menu">
+  <div class="container" data-aos="fade-up">
+    <div class="section-header">
+      <h2>Our Menu</h2>
+      <p>Check Our <span>Yummy Menu</span></p>
+    </div>
+
+    {% comment %}
+    <ul
+      class="nav nav-tabs d-flex justify-content-center"
+      data-aos="fade-up"
+      data-aos-delay="200"
+    >
+      {% for item, range, nSlides in allItem %}
+      <li class="nav-item">
+        {% url '{{item.0.category}}' as url %}
+        <a
+          class="nav-link {% if request.path == url %}active{% endif %} show"
+          data-bs-toggle="tab"
+          data-bs-target="#{{item.0.category}}"
+        >
+          <h4>{{item.0.category}}</h4>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endcomment %}
+
+    <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+      {% for item in allMenu %}
+      <hr />
+      {% url 'search' as url %}
+      <div
+        class="tab-pane fade {% if request.path == url %}active {% endif %} show"
+        id="{{item.category}}"
+      >
+        <div class="tab-header text-center">
+          <p>Menu</p>
+          <h3>{{item.category}}</h3>
+        </div>
+
+        <div class="row gy-5">
+          <div class="col-lg-4 menu-item">
+            <a href="{% url 'item-detail' item.id %}"
+              ><img src="{{item.image.url}}" class="menu-img img-fluid" alt=""
+            /></a>
+            <h4>{{item.name}}</h4>
+            <p class="ingredients">{{item.description}}</p>
+            <p class="price">Rs.{{item.price}}</p>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-6 col-sm-12 text-center">
+          <h3>Nothing's here?</h3>
+        </div>
+      </div>
+      {% endfor %}
+      <hr />
+      {% comment %} {% for item, range, nSlides in allItem %}
+      <hr />
+      {% url '{{item.0.category}}' as url %}
+      <div
+        class="tab-pane fade {% if request.path == url %}active{% endif %} show"
+        id="{{item.0.category}}"
+      >
+        <div class="tab-header text-center">
+          <p>Menu</p>
+          <h3>{{item.0.category}}</h3>
+        </div>
+
+        <div class="row gy-5">
+          {% for i in item %}
+          <div class="col-lg-4 menu-item">
+            <a href="#" class="glightbox"
+              ><img src="{{i.image.url}}" class="menu-img img-fluid" alt=""
+            /></a>
+            <h4>{{i.name}}</h4>
+            <p class="ingredients">{{i.description}}</p>
+            <p class="price">Rs.{{i.price}}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %} {% endcomment %}
+    </div>
+  </div>
+</section>
+{% endblock main-content %}
