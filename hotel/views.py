@@ -15,8 +15,26 @@ import math
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import TemplateView
 
 
+class KhaltiView(View):
+    def get(self, request, *args, **kwargs):
+        o_id = request.GET.get("o_id")
+        order = OrderPlaced.objects.get(id=o_id)
+        context = {
+            "order": order
+        }
+        return render(request, "khaltirequest.html", context)
+
+
+class EditorChartView(TemplateView):
+    template_name = 'admin/chart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["qs"] = MenuItem.objects.all()
+        return context
 # def home(request):
 #     allItem = []
 #     catitem = MenuItem.objects.values('category')
@@ -280,6 +298,11 @@ def checkout(request):
     user = request.user
     add = Customer.objects.filter(user=user)
     cart_items = Cart.objects.filter(user=user)
+
+    item_already_in_cart = False
+    if request.user.is_authenticated:
+        item_already_in_cart = Customer.objects.filter(user=user).exists()
+
     amount = 0.0
     shipping_amount = 70.0
     total_amount = 0.0
@@ -292,7 +315,29 @@ def checkout(request):
             amount += tempamount
         total_amount = amount + shipping_amount
 
+    if request.method == 'POST':
+
+        form = CustomerProfileForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            name = form.cleaned_data['name']
+            address = form.cleaned_data['address']
+            city = form.cleaned_data['city']
+            province = form.cleaned_data['province']
+            zipcode = form.cleaned_data['zipcode']
+            reg = Customer(user=user, name=name, address=address,
+                           city=city, province=province, zipcode=zipcode)
+            reg.save()
+            messages.success(
+                request, 'congratulation!! profile updadted successfully')
+            return redirect('/checkout')
+
+    else:
+        form = CustomerProfileForm()
+
     context = {
+        'item': item_already_in_cart,
+        'form': form,
         'add': add,
         'total_amount': total_amount,
         'cart_items': cart_items

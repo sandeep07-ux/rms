@@ -66,6 +66,13 @@ STATUS_CHOICES = (
 )
 
 
+METHOD = (
+    ("Cash On Delivery", "Cash On Delivery"),
+    ("Khalti", "Khalti"),
+    ("Esewa", "Esewa"),
+)
+
+
 class OrderPlaced(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -74,6 +81,10 @@ class OrderPlaced(models.Model):
     ordered_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=50, choices=STATUS_CHOICES, default='Pending')
+    # payment_method = models.CharField(
+    #     max_length=20, choices=METHOD, default="Cash On Delivery")
+    # payment_completed = models.BooleanField(
+    #     default=False, null=True, blank=True)
 
     @property
     def total_cost(self):

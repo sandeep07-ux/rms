@@ -28,7 +28,7 @@
         {% if request.user.is_authenticated %} {% if item_exits %}
         <a
           href="{% url 'showcart' %}"
-          class="btn btn-warning shadow px-5 py-2 ms-4"
+          class="btn btn-warning rounded-pill shadow px-5 py-2 ms-4"
         >
           Go to cart</a
         >
@@ -40,7 +40,10 @@
             value="{{product.id}}"
             id="prod_id"
           />
-          <button type="submit" class="btn btn-primary shadow px-5 py-2">
+          <button
+            type="submit"
+            class="btn btn-primary rounded-pill shadow px-5 py-2"
+          >
             Add to cart
           </button>
         </form>
@@ -52,18 +55,22 @@
             value="{{product.id}}"
             id="prod_id"
           />
-          <button type="submit" class="btn btn-primary shadow px-5 py-2">
+          <button
+            type="submit"
+            class="btn btn-primary rounded-pill shadow px-5 py-2"
+          >
             Add to cart
           </button>
         </form>
         {% endif %}
 
         <a
-          href="{% url 'buy-now' %}"
-          class="btn btn-danger shadow px-5 py-2 ms-4"
+          href="{% url 'checkout' %}"
+          class="btn btn-danger rounded-pill shadow px-5 py-2 ms-4"
           >Buy Now</a
         >
         <h5 class="mt-5">Available Offers</h5>
+        {% comment %}
         <ul>
           <li>Bank Offer 5% Unlimited Cashback on Flipkart Axis Bank Credit</li>
           <li>
@@ -75,6 +82,7 @@
             with a new Visa Debit/Credit Card
           </li>
         </ul>
+        {% endcomment %}
       </div>
     </div>
   </div>

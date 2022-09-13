@@ -3,32 +3,47 @@
 {% block title %}Checkout{% endblock title %} {% block main-content %}
 <section>
   <div class="container">
-    <div class="row mt-5">
-      <div class="col-sm-6">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Items in the cart</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>SN</th>
+              <th>Product</th>
+              <th>Rate</th>
+              <th>Quantity</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in cart_items %}
+            <tr>
+              <td>{{forloop.counter}}</td>
+              <td>{{i.item.name}}</td>
+              <td>{{i.item.price}}</td>
+              <td>{{i.quantity}}</td>
+              <td>{{i.total_cost}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <th colspan="4" class="text-right">Shipping amount</th>
+              <th>Rs. 70</th>
+            </tr>
+            <tr>
+              <th colspan="4" class="text-right">Total</th>
+
+              <th>Rs. {{total_amount}}</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {% if item %}
+      <div class="col-sm-4 offset-sm-1">
         <h4>Checkout</h4>
         <hr />
-        {% for i in cart_items %}
-
-        <div class="card mb-2">
-          <div class="card-body">
-            <h5>Product: {{i.item.name}}</h5>
-            <p>Quantity: {{i.quantity}}</p>
-            <p class="fw-bold">Price: {{i.total_cost}}</p>
-          </div>
-        </div>
-        {% endfor %}
-        <p class="fw-bold">Total cost + Rs. 70= {{total_amount}}</p>
-        <small
-          >Term and Condition: Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Mollitia, ullam saepe! Iure optio repellat dolor
-          velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium
-          adipisci nisi nihil in et quis?</small
-        >
-      </div>
-      <div class="col-sm-4 offset-sm-1">
-        <h4>Select Shipping Address</h4>
-        <hr />
-        <form action="{% url 'paymentdone' %}">
+        <form action="{% url 'paymentdone' %}" id="myform">
           {% csrf_token %} {% for ad in add %}
 
           <div class="card">
@@ -51,18 +66,158 @@
             </label>
           </div>
           {% endfor %}
+
           <div class="text-end">
             <button
               type="submit"
               id="btn"
               class="btn btn-warning mt-3 px-5 fw-bold"
             >
-              Continue
+              Cash On Delivery
+            </button>
+          </div>
+          <div class="text-end">
+            <button
+              id="payment-button"
+              class="btn mt-3 px-5 fw-bold"
+              style="background-color: #6610f2; color: white"
+            >
+              Pay with Khalti
             </button>
           </div>
         </form>
       </div>
+      {% else %}
+      <div class="col-sm-4 offset-sm-1">
+        <h4>Address</h4>
+
+        <form action="{% url 'checkout' %}" method="post" novalidate>
+          {% csrf_token %} {% for fm in form %}
+          <div class="form-group-col-lg-6 mb-3">
+            {{fm.label_tag}} {{fm}}
+            <small class="text-danger">{{fm.errors|striptags}}</small>
+          </div>
+          {% endfor %}
+          <div class="col-12 mt-3">
+            <button class="btn btn-primary mb-3">Submit</button>
+          </div>
+        </form>
+        {% if messages %} {% for msg in messages %}
+        <p {% if msg.tags %}class="alert alert-{{msg.tags}} mb-5" {% endif %}>
+          {{msg}}
+        </p>
+        {% endfor %} {% endif %}
+      </div>
+      {% endif %}
     </div>
   </div>
 </section>
+{% comment %} break {% endcomment %} {% comment %}
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm-6">
+      <h4>Checkout</h4>
+      <hr />
+      {% for i in cart_items %}
+
+      <div class="card mb-2">
+        <div class="card-body">
+          <h5>Product: {{i.item.name}}</h5>
+          <p>Quantity: {{i.quantity}}</p>
+          <p class="fw-bold">Price: {{i.total_cost}}</p>
+        </div>
+      </div>
+      {% endfor %}
+      <p class="fw-bold">Total cost + Rs. 70= {{total_amount}}</p>
+      <small
+        >Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing
+        elit. Mollitia, ullam saepe! Iure optio repellat dolor velit, minus rem.
+        Facilis cumque neque numquam laboriosam, accusantium adipisci nisi nihil
+        in et quis?</small
+      >
+    </div>
+    <div class="col-sm-4 offset-sm-1">
+      <h4>Select Shipping Address</h4>
+      <hr />
+      <form action="{% url 'paymentdone' %}">
+        {% csrf_token %} {% for ad in add %}
+
+        <div class="card">
+          <div class="card-body">
+            <h5>{{ad.name}}</h5>
+            <p>{{ad.address}}, {{ad.city}}, {{ad.province}}-{{ad.zipcode}}</p>
+          </div>
+        </div>
+        <div class="form-check mt-2 mb-5">
+          <input
+            class="form-check-input"
+            type="radio"
+            value="{{ad.id}}"
+            name="searchquery"
+            id="custadd{{forloop.counter}}"
+            required
+          />
+          <label class="form-check-label fw-bold" for="">
+            Address: {{forloop.counter}}
+          </label>
+        </div>
+        {% endfor %}
+        <div class="text-end">
+          <button
+            type="submit"
+            id="btn"
+            class="btn btn-warning mt-3 px-5 fw-bold"
+          >
+            Continue
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endcomment %}
+<hr />
+{% block scripts %}
+<script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+{% endblock scripts %}
+<hr />
 {% endblock main-content %}
+<hr />
+{% block payment %}
+<script>
+  var config = {
+    // replace the publicKey with yours
+    publicKey: "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+    productIdentity: "1234567890",
+    productName: "Dragon",
+    productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
+    paymentPreference: [
+      "KHALTI",
+      "EBANKING",
+      "MOBILE_BANKING",
+      "CONNECT_IPS",
+      "SCT",
+    ],
+    eventHandler: {
+      onSuccess(payload) {
+        // hit merchant api for initiating verfication
+        console.log(payload);
+      },
+      onError(error) {
+        console.log(error);
+      },
+      onClose() {
+        console.log("widget is closing");
+      },
+    },
+  };
+
+  var checkout = new KhaltiCheckout(config);
+  var btn = document.getElementById("payment-button");
+  btn.onclick = function () {
+    // minimum transaction amount must be 10, i.e 1000 in paisa.+
+    checkout.show({ amount: {{total_amount}}  });
+  };
+</script>
+<hr />
+{% endblock payment %}

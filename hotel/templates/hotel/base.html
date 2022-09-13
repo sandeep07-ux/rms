@@ -122,6 +122,8 @@
     <hr />
     {% block main-content %}{% endblock main-content %}
     <hr />
+    {% block payment %}{% endblock payment %}
+    <hr />
     {% include 'user/footer.html' %}
     <!-- Vendor JS Files -->
     <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -160,5 +162,6 @@
       integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="
       crossorigin="anonymous"
     ></script>
+    {% block scripts %}{% endblock scripts %}
   </body>
 </html>

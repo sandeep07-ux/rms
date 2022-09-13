@@ -5,7 +5,14 @@ from django.contrib.auth.models import User
 from django.forms import widgets
 from django.utils.translation import gettext, gettext_lazy as _
 
-from .models import Customer
+from .models import Customer, OrderPlaced
+
+
+# class CheckoutForm(forms.ModelForm):
+#     class Meta:
+#         model = OrderPlaced
+#         fields = ["ordered_by", "shipping_address",
+#                   "mobile", "email", "payment_method"]
 
 
 class CustomerRegistrationForm(UserCreationForm):

@@ -2,12 +2,15 @@ from django.urls import path
 from django.views.generic.base import RedirectView, View
 from hotel import views
 from django.contrib.auth import views as auth_views
+
+from .views import KhaltiView
 from .forms import LoginForm, PasswordChange, PasswordReset, SetPassword
 
 urlpatterns = [
 
-
+    path('khalti/', KhaltiView.as_view(), name="khalti"),
     # path('', views.home),
+    # path("chart/", views.EditorChartView.as_view(), name="chart"),
     path('', views.ItemView.as_view(), name='home'),
 
     path("search/", views.search, name="search"),
